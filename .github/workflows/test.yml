@@ -2,6 +2,7 @@ name: push to unstable AWS S3 Bucket
 on:
   push
 env:
+  SITE_SRC   : "src/"
   AWS_REGION : "eu-central-1"
   AWS_BUCKET : "s3://ryanagius.com-unstable/"
 permissions:
@@ -21,8 +22,8 @@ jobs:
           role-session-name: samplerolesession
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Sync with S3 bucket
+      - name: Sync src with S3 bucket
         run: |
           pwd
           ls
-          aws s3 sync . ${{ env.AWS_BUCKET }}
+          aws s3 sync ${{ env.SITE_SRC }} ${{ env.AWS_BUCKET }}
