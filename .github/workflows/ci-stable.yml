@@ -1,8 +1,7 @@
-# Calls workflows lint sources and push to dev
-
+# Calls workflows lint sources and push to prod
 
 on:
-  pull_request:
+  push:
     branches:
       - 'main'
 
@@ -19,6 +18,6 @@ jobs:
     needs: lint
     uses: ./.github/workflows/deploy.yml
     with:
-      environment: development
+      environment: production
     
 
