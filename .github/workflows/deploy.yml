@@ -34,9 +34,9 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       - name: sync src with prod S3 bucket
-        if:  env.BUILD_CONTEXT == 'production'
+        if:  vars.BUILD_CONTEXT == 'production'
         run: aws s3 sync ${{ env.SITE_SRC }} ${{ env.AWS_BUCKET_STABLE }} ${{ env.AWS_SYNCFLAGS }}
 
       - name: sync src with dev S3 bucket
-        if: env.BUILD_CONTEXT == 'development'
+        if: vars.BUILD_CONTEXT == 'development'
         run: aws s3 sync ${{ env.SITE_SRC }} ${{ env.AWS_BUCKET_UNSTABLE }} ${{ env.AWS_SYNCFLAGS }}
