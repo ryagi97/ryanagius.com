@@ -2,14 +2,15 @@ name: push to unstable AWS S3 Bucket
 on:
   push
 env:
-  SITE_SRC   : "src/"
-  AWS_REGION : "eu-central-1"
-  AWS_BUCKET : "s3://ryanagius.com-unstable/"
+  SITE_SRC      : "src/"
+  AWS_REGION    : "eu-central-1"
+  AWS_BUCKET    : "s3://ryanagius.com-unstable/"
+  AWS_SYNCFLAGS : "--delete --acl public-read" 
 permissions:
       id-token: write  
       contents: read  
 jobs:
-  DemoOIDC:
+  sync-unstable-ryanagiuscom:
     runs-on: self-hosted
     steps:
       - name: Git clone the repository
@@ -26,4 +27,4 @@ jobs:
         run: |
           pwd
           ls
-          aws s3 sync ${{ env.SITE_SRC }} ${{ env.AWS_BUCKET }}
+          aws s3 sync ${{ env.SITE_SRC }} ${{ env.AWS_BUCKET }} ${{ env.AWS_SYNCFLAGS }}
