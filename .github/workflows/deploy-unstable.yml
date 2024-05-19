@@ -18,10 +18,10 @@ permissions:
 jobs:
   sync-unstable-ryanagiuscom:
     runs-on: self-hosted
-    
+
     steps:
       - name: Git clone the repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: configure aws credentials
         uses: aws-actions/configure-aws-credentials@v4
