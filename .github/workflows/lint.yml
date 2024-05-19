@@ -30,4 +30,5 @@ jobs:
             # To report GitHub Actions status checks
           VALIDATE_ALL_CODEBASE: true
           VALIDATE_HTML: true
+          DEFAULT_BRANCH: ${{ github.event.pull_request.base.ref }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
