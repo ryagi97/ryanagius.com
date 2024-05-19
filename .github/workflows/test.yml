@@ -22,4 +22,6 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Sync with S3 bucket
-        run: aws sync . ${{ env.AWS_BUCKET }}
+        run: |
+          pwd
+          aws sync ./ ${{ env.AWS_BUCKET }}
