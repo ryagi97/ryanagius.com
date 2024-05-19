@@ -7,9 +7,16 @@ on:
       - 'main'
 
 jobs:
+  lint:
+    name: lint
+    if: ${{ success() }}
+    uses: ./.github/workflows/lint.yml
+    secrets: inherit
+
   deploy:
     name: deploy
     if: ${{ success() }}
+    needs: lint
     uses: ./.github/workflows/deploy.yml
     with:
       environment: development
