@@ -1,13 +1,12 @@
-#For the provider URL: Use https://token.actions.githubusercontent.com
-#For the "Audience": Use sts.amazonaws.com 
-name: AWS OIDC Connect Demo
+name: push to unstable AWS S3 Bucket
 on:
   push
 env:
-  AWS_REGION : "eu-central-1"   
+  AWS_REGION : "eu-central-1"
+  AWS_BUCKET : "s3://ryanagius.com-unstable/"
 permissions:
-      id-token: write   # This is required for requesting the JWT
-      contents: read    # This is required for actions/checkout
+      id-token: write  
+      contents: read  
 jobs:
   DemoOIDC:
     runs-on: self-hosted
@@ -22,8 +21,5 @@ jobs:
           role-session-name: samplerolesession
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Print AWS SSM Parameter
-        run: aws ssm get-parameter --name=hello_aws-gh-oidc --query Parameter.Value
-
-      - name: Print assumed role
-        run: aws sts get-caller-identity
+      - name: Sync with S3 bucket
+        run: aws sync . ${{ env.AWS_BUCKET }}
