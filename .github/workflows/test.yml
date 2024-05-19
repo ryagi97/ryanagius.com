@@ -24,4 +24,5 @@ jobs:
       - name: Sync with S3 bucket
         run: |
           pwd
-          aws sync ./ ${{ env.AWS_BUCKET }}
+          ls
+          aws s3 sync . ${{ env.AWS_BUCKET }}
