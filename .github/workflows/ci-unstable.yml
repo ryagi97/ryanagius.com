@@ -6,13 +6,12 @@ on:
     branches:
       - 'main'
 
-env:
-    BUILD_CONTEXT   : "development"  
-
 jobs:
   deploy:
     name: deploy
     if: ${{ success() }}
     uses: ./.github/workflows/deploy.yml
+    with:
+      environment: development
     
 

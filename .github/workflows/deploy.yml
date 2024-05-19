@@ -2,6 +2,10 @@ name: push to prod
 
 on:
   workflow_call:
+    inputs:
+      environment:
+        type: string
+        required: true
 
 env:
   SITE_SRC              : "src/"
@@ -15,8 +19,9 @@ permissions:
       contents: read  
 
 jobs:
-  sync-ryanagiuscom:
+  deploy:
     runs-on: self-hosted
+    environment: ${{ inputs.environment }}
     steps:
       - name: Git clone the repository
         uses: actions/checkout@v4
