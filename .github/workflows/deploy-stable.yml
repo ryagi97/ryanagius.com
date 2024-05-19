@@ -1,33 +1,34 @@
-name: push to unstable AWS S3 Bucket
+name: push to stable (production) AWS S3 Bucket
+
 on:
-  push
+  push:
+    branches:
+      - 'main'
+
 env:
   SITE_SRC      : "src/"
   AWS_REGION    : "eu-central-1"
-  AWS_BUCKET    : "s3://ryanagius.com-unstable/"
+  AWS_BUCKET    : "s3://ryanagius.com/"
   AWS_SYNCFLAGS : "--delete --acl public-read" 
+
 permissions:
       id-token: write  
       contents: read  
+
 jobs:
-  sync-unstable-ryanagiuscom:
+  sync-stable-ryanagiuscom:
     runs-on: self-hosted
+    
     steps:
       - name: Git clone the repository
         uses: actions/checkout@v3
 
       - name: configure aws credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::330035712696:role/gh-oidc-role
-          role-session-name: sync-unstable-ryanagius.com
+          role-session-name: sync-stable-ryanagius.com
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: check aws identity 
-        run: aws sts get-caller-identity
-
       - name: Sync src with S3 bucket
-        run: |
-          pwd
-          ls
-          aws s3 sync ${{ env.SITE_SRC }} ${{ env.AWS_BUCKET }} ${{ env.AWS_SYNCFLAGS }}
+        run: aws s3 sync ${{ env.SITE_SRC }} ${{ env.AWS_BUCKET }} ${{ env.AWS_SYNCFLAGS }}
