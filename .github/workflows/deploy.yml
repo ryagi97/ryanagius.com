@@ -1,0 +1,37 @@
+name: push to prod
+
+on:
+  workflow_call:
+
+env:
+  SITE_SRC              : "src/"
+  AWS_REGION            : "eu-central-1"
+  AWS_BUCKET_STABLE     : "s3://ryanagius.com/"
+  AWS_BUCKET_UNSTABLE   : "s3://ryanagius.com-unstable/"
+  AWS_SYNCFLAGS         : "--delete --acl public-read" 
+
+permissions:
+      id-token: write  
+      contents: read  
+
+jobs:
+  sync-ryanagiuscom:
+    runs-on: self-hosted
+    steps:
+      - name: Git clone the repository
+        uses: actions/checkout@v4
+
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::330035712696:role/gh-oidc-role
+          role-session-name: sync-stable-ryanagius.com
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: sync src with prod S3 bucket
+        if: ${{ env.BUILD_CONTEXT }} == "production"
+        run: aws s3 sync ${{ env.SITE_SRC }} ${{ env.AWS_BUCKET_STABLE }} ${{ env.AWS_SYNCFLAGS }}
+
+      - name: sync src with dev S3 bucket
+        if: ${{ env.BUILD_CONTEXT }} == "development"
+        run: aws s3 sync ${{ env.SITE_SRC }} ${{ env.AWS_BUCKET_UNSTABLE }} ${{ env.AWS_SYNCFLAGS }}

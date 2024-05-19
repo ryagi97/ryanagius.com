@@ -1,0 +1,18 @@
+# Calls workflows to validate and pull sources, build the BSP and upload the 
+# targets to a common storage area.
+
+on:
+  pull_request:
+    branches:
+      - 'main'
+
+env:
+    BUILD_CONTEXT   : "development"  
+
+jobs:
+  deploy:
+    name: deploy
+    if: ${{ success() }}
+    uses: ./.github/workflows/deploy.yml
+    
+
