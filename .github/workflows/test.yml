@@ -20,8 +20,11 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v1
         with:
           role-to-assume: arn:aws:iam::330035712696:role/gh-oidc-role
-          role-session-name: samplerolesession
+          role-session-name: sync-unstable-ryanagius.com
           aws-region: ${{ env.AWS_REGION }}
+
+      - name: check aws identity 
+        run: aws sts get-caller-identity
 
       - name: Sync src with S3 bucket
         run: |
