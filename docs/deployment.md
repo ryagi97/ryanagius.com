@@ -2,12 +2,12 @@
 
 ## Current status (verified 2026-09-03)
 
-- GitHub `main` contains commit `7ce2abb` with the Milestone 1 site.
+- GitHub `main` contains the Milestone 1 site and its deployment configuration.
 - Cloudflare Worker `ryanagius-com` is deployed, and its `ryanagius.com` custom domain is active.
+- Workers Builds is connected to `ryagi97/ryanagius.com`; commit `9a79031` triggered and promoted Cloudflare version `fc9c19df-1b4e-4e50-957f-f16ca35e37cb`.
 - The apex homepage returns `200` over HTTPS and contains the expected Ryan Agius build.
 - An unknown path returns the generated custom page with HTTP status `404`.
-- **Pending:** connect the Worker to the GitHub repository in Workers Builds and confirm a push-triggered deployment.
-- **Pending:** create the proxied `www` DNS record and the permanent `www`-to-apex Redirect Rule.
+- `www.ryanagius.com` returns `301` to the matching apex path and preserves the query string.
 
 ## Pipeline
 
@@ -25,12 +25,12 @@ The Worker name is `ryanagius-com`. Cloudflare requires the dashboard project na
 
 ## One-time Cloudflare setup
 
-The initial direct Wrangler deployment and apex custom domain are complete. The following account-side actions still require Ryan's authenticated Cloudflare dashboard session:
+The following one-time account-side setup is complete and retained here as a recovery/reference procedure:
 
 1. Open Worker `ryanagius-com`, then go to **Settings → Builds** and connect a Git repository.
 2. Authorize the Cloudflare GitHub app for the private `ryagi97/ryanagius.com` repository.
 3. Use production branch `main`, build command `npm run build`, and deploy command `npx wrangler deploy`.
-4. Push a harmless commit to `main`, confirm Workers Builds deploys it successfully, and then remove the **Pending** status above.
+4. Push a commit to `main` and confirm Workers Builds deploys it successfully.
 
 ## `www` to apex redirect
 
