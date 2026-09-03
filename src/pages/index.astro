@@ -1,0 +1,27 @@
+---
+import Layout from '../components/Layout.astro';
+import Hero from '../components/Hero.astro';
+import { site, withBase } from '../data/site';
+import { experience, skillGroups } from '../data/resume';
+
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.author.name,
+  url: site.url,
+  image: new URL(withBase('/og.jpg'), site.url).href,
+  jobTitle: experience[0]?.role ?? 'Computer Vision Engineer',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: site.author.location,
+  },
+  sameAs: Object.values(site.socials)
+    .map((social) => social.url)
+    .filter((url) => url.startsWith('http')),
+  knowsAbout: skillGroups.flatMap((g) => g.skills).slice(0, 8),
+};
+---
+
+<Layout title={undefined} jsonLd={personJsonLd}>
+  <Hero />
+</Layout>
