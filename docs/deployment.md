@@ -4,7 +4,7 @@
 
 - GitHub `main` contains the Milestone 1 site and its deployment configuration.
 - Cloudflare Worker `ryanagius-com` is deployed, and its `ryanagius.com` custom domain is active.
-- Workers Builds is connected to `ryagi97/ryanagius.com`; commit `9a79031` triggered and promoted Cloudflare version `fc9c19df-1b4e-4e50-957f-f16ca35e37cb`.
+- Workers Builds is connected to `ryagi97/ryanagius.com`; successive pushes to `main` have triggered and promoted Cloudflare deployments.
 - The apex homepage returns `200` over HTTPS and contains the expected Ryan Agius build.
 - An unknown path returns the generated custom page with HTTP status `404`.
 - `www.ryanagius.com` returns `301` to the matching apex path and preserves the query string.
